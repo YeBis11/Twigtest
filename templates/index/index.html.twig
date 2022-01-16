@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Index Page{% endblock %}
+
+{% block header %}
+    <header class="pb-3 mb-4 border-bottom container">
+        <div class="row justify-content-md-center">
+            <div class="col-md-auto text-dark text-decoration-none fs-4">Example Header</div>
+        </div>
+    </header>
+{% endblock %}
+
+{% block content %}
+
+    <table class="table">
+    <thead>
+    <tr>
+        <th cope="col">Id</th>
+        <th cope="col">Name</th>
+        <th cope="col">Surename</th>
+        <th cope="col">Email</th>
+        <th cope="col">Phone</th>
+        <th cope="col">Origin</th>
+        <th cope="col">Personal Page</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for participant in participants %}
+        {% if loop.first %}
+        <tr class="table-warning">
+        
+        {% elseif loop.index%2 %}
+            <tr>
+        {% else %}
+            <tr class="table-dark">
+        {% endif %}
+            <th>{{ loop.index0 }}</th>
+            <td>{{ participant.name }}</td>
+            <td>{{ participant.surename }}</td>
+            <td>{{ participant.email|lower }}</td>
+            <td>{{ participant.phone }}</td>
+            <td>{{ participant.origin }}</td>
+            {% if participant.editable%}
+            <td><a href="{{ path('user_profile', {'id': participant.id, 'action': 'edit'}) }}">Profile link</a></td>
+            {% else %}
+              <td>Not Editable</a></td>
+            {% endif %}
+        </tr>
+        {% if loop.last %}
+          {{ include("index/tr/tr.html.twig", {
+              number: loop.index0, name: 'Joe', surename: 'Johnson', email: 'jojo@my.com', phone: '83209483209', origin: 'None'
+            }, with_context = false) }}
+        {% endif %}
+        
+    {% else %}
+      <h2> There are no participants in the list</h2>
+   {% endfor%}
+    </tbody>
+</table>
+
+
+{% endblock %}
+
+{% block footer %}
+<footer class="container">
+    <div class="row justify-content-md-center">
+       <div class="col-md-auto text-muted">Current time is {{ "now"|date("d M Y  H:i", "Europe/Kiev") }}</div>
+    </div>  
+</footer>
+{% endblock %}
